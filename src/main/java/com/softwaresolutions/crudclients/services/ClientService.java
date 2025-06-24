@@ -3,7 +3,6 @@ package com.softwaresolutions.crudclients.services;
 import com.softwaresolutions.crudclients.dto.ClientDTO;
 import com.softwaresolutions.crudclients.entities.Client;
 import com.softwaresolutions.crudclients.repositories.ClientRepository;
-import com.softwaresolutions.crudclients.services.exceptions.DatabaseException;
 import com.softwaresolutions.crudclients.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,13 +74,11 @@ public class ClientService {
     public void delete(Long id){
         if (!repository.existsById(id)){
             throw  new ResourceNotFoundException("ID não encontrado");
+        }else {
+            repository.deleteById(id);
+
         }
 
-        try {
-            repository.deleteById(id);
-        }
-        catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("Falha de integridade referencial pois este produto existe cadastrado em algum pedido");
-        }
+
     }
 }
