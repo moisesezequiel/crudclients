@@ -1,33 +1,33 @@
-package com.softwaresolutions.crudclients.entities;
+package com.softwaresolutions.crudclients.dto;
 
-import jakarta.persistence.*;
+import com.softwaresolutions.crudclients.entities.Client;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
 
-@Entity
-@Table(name = "tb_client")
-public class Client {
+public class ClientDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name is necessary")
     private String name;
 
     private String cpf;
 
     private Double income;
 
+    @PastOrPresent(message = "Invalid date")
     private LocalDate birthDate;
 
     private Integer children;
 
-    public Client() {
+    public ClientDTO() {
     }
 
-    public Client(Long id, String name, String cpf, Double income, LocalDate birthDate, Integer children) {
+    public ClientDTO(Long id, String name, String cpf, Double income, LocalDate birthDate, Integer children) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
@@ -36,6 +36,14 @@ public class Client {
         this.children = children;
     }
 
+    public ClientDTO(Client entity) {
+        id = entity.getId();
+        name = entity.getName();
+        cpf = entity.getCpf();
+        income = entity.getIncome();
+        birthDate = entity.getBirthDate();
+        children = entity.getChildren();
+    }
     public Long getId() {
         return id;
     }
@@ -88,7 +96,7 @@ public class Client {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
 
-        Client client = (Client) o;
+        ClientDTO client = (ClientDTO) o;
         return Objects.equals(id, client.id);
     }
 
